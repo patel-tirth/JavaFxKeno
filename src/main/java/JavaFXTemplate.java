@@ -9,8 +9,10 @@ import javafx.animation.TranslateTransition;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -23,6 +25,7 @@ import javafx.scene.layout.BackgroundImage;
 import javafx.scene.layout.BackgroundPosition;
 import javafx.scene.layout.BackgroundRepeat;
 import javafx.scene.layout.BackgroundSize;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
@@ -40,6 +43,8 @@ public class JavaFXTemplate extends Application {
 //	private Button changeBack;
 	
 	private Menu gameMenu;
+	private GridPane grid;
+	private static final int COLS=10, ROWS=8;
 	
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
@@ -110,13 +115,30 @@ public class JavaFXTemplate extends Application {
 		
 	private class Menu extends Parent{
 		private Text text;
+		
+		public Pane drawGrid() {
+			grid = new GridPane();
+			grid.setLayoutX(400);
+			grid.setLayoutY(100);
+//			grid.
+//			grid.setMaxSize(40, 40);
+			
+			for(int rowIndex = 0; rowIndex < ROWS ; rowIndex++) {
+	            Node[] nodes = new Node[COLS];
+	            for(int colIndex = 0; colIndex < COLS ; colIndex++) {
+	                Button node= new Button(colIndex+1+"");
+	                nodes[colIndex]= node;
+	            }
+	            grid.addRow(rowIndex, nodes);
+	        }
+	        return grid;
+		}
+		
 		public Menu() {
 			VBox mainMenu = new VBox(20);
 			DropShadow drop=new DropShadow();
 			drop.setOffsetX(40.0);
 			drop.setOffsetY(38.0);
-			
-			
 			
 			Rectangle rules=new Rectangle(600,500);
 			rules.setX(10);
@@ -126,6 +148,12 @@ public class JavaFXTemplate extends Application {
 			rules.setEffect(new GaussianBlur(1.5));	
 			rules.setEffect(drop);
 //			getChildren().addAll(rules,text);
+			
+			VBox root = new VBox(50);
+	        root.setPadding(new Insets(60, 50,60,60));
+	        
+	        
+			
 			
 			text=new Text("Game Rules are shown over here");
 			text.setFont(text.getFont().font(20));
@@ -177,7 +205,20 @@ public class JavaFXTemplate extends Application {
 			
 			ButtonMenu buttonPlay = new ButtonMenu("Play");
 			buttonWins.setOnMouseClicked(event->{
-//				
+				
+				getChildren().addAll(root, drawGrid());
+				TranslateTransition toRules = new TranslateTransition(Duration.seconds(0.25), mainMenu);
+				toRules.setToX(mainMenu.getTranslateX() - offset);
+				
+				TranslateTransition toNewRules = new TranslateTransition(Duration.seconds(0.15), mainMenu);
+				toNewRules.setToX(root.getTranslateX());
+				
+				toRules.play();
+				toNewRules.play();
+				
+				toRules.setOnFinished(evt->{
+					getChildren().remove(mainMenu);
+				});
 				
 			});
 			
@@ -188,6 +229,9 @@ public class JavaFXTemplate extends Application {
 			getChildren().addAll(allButtBack, mainMenu);
 		}
 	}
+
+
+
 		
 		
 	
