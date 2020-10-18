@@ -29,6 +29,7 @@ import javafx.scene.layout.BackgroundImage;
 import javafx.scene.layout.BackgroundPosition;
 import javafx.scene.layout.BackgroundRepeat;
 import javafx.scene.layout.BackgroundSize;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
@@ -65,7 +66,7 @@ public class JavaFXTemplate extends Application {
 		
 		Pane root=new Pane();
 		root.setPrefSize(800,600);
-
+	
 		gameMenu= new MenuBar();
 	
 		Menu tab = new Menu("Menu"); // tab menu.. on click list the options
@@ -80,6 +81,8 @@ public class JavaFXTemplate extends Application {
 		tab.getItems().addAll(opt1,opt2,opt3);
 		
 		gameMenu.getMenus().addAll(tab);   // "Menu tab to the gameMenu bar"
+		
+		
 		
 		playGame = new Button("Lets Play");
 		playGame.setAlignment(Pos.CENTER);
@@ -103,6 +106,7 @@ public class JavaFXTemplate extends Application {
 		
 
 		Scene scene = new Scene(root);
+		
 		primaryStage.setScene(scene);
 		primaryStage.show();
 	}
