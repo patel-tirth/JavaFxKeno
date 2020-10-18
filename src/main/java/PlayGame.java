@@ -37,10 +37,10 @@ public class PlayGame {
 //	
 //	BorderPane borderPane = new BorderPane();
 	public int num =0 ;
-	public int totalNum = 20;
+	public int totalNum = 20	;
 	public int j;
 	private MenuBar gameMenu2;
-	int time= 0 ;
+	int secs= 0 ;
 	public int count = 0;  // to keep track on total number of spots selected from bet grid (1,4,8,10)
 	String spotNumber; // string to store the spot selected
 //	ArrayList<Integer> NumberList= new ArrayList<Integer>(); 
@@ -183,7 +183,7 @@ public class PlayGame {
 			 randomNumbers.put(num,true);
 			 if (randomNumbers.size() <= 20) {
 	                if (randomNumbers.size() == 20) {
-	                    totalNum = 10;
+	                    totalNum = 20;
 	                }
 	                totalNum++;
 	                randomNumbers.put(num,true);
@@ -192,7 +192,7 @@ public class PlayGame {
 		 
 		 grid.getChildren().forEach(node -> { 
 			 
-			 PauseTransition pause = new PauseTransition(Duration.millis(200+(time*300)));
+			 PauseTransition pause = new PauseTransition(Duration.millis(500+(secs*100)));
 			 if(gridValue.containsKey(j)== true && randomNumbers.containsKey(j))
 			 {
 				 pause.play();
@@ -203,7 +203,7 @@ public class PlayGame {
 				 pause.play();
 				 pause.setOnFinished(e->node.setStyle("-fx-background-color: green;"));
 			 }
-			 time++;
+			 secs = secs + 1;
 			 j++;
 			 
 		 });
@@ -214,7 +214,7 @@ public class PlayGame {
 	 public void fillOutSpots(GridPane grid, int spotNumber,Pane gamePane)
 	 { 
 		
-		  System.out.println(spotNumber); 
+//		  System.out.println(spotNumber); 
 		  
 		  	 
 			  grid.getChildren().forEach(node -> {   // for each node in the grid pane,
@@ -255,17 +255,26 @@ public class PlayGame {
 				  
 			  });
 			  
-//			  HBox drawBox = new HBox(draw);
+			
 //			  
-//			  
+			  Button RandomSelect = new Button("Select Random Spots");
 			  Button draw = new Button("Draw");
-				 gamePane.getChildren().add(draw);
+			  
+			  VBox drawBox = new VBox(RandomSelect,draw);
+			  	drawBox.setLayoutX(100);
+			  	drawBox.setLayoutY(300);
+			  	drawBox.setStyle("-fx-cursor: hand;");
+				 gamePane.getChildren().add(drawBox);
+				 
 //			  drawBox.setAlignment(Pos.CENTER_RIGHT);
 			  
 //			  BorderPane root = new BorderPane();
 //			    root.setPadding(new Insets(20)); // space between elements and window border
 //			    root.setBottom(drawBox);
 //			    gamePane.getChildren().addAll(draw);
+				 RandomSelect.setOnAction(e->{
+					 selectRandomSpots(grid,spotNumber);
+				 });
 			  draw.setOnAction(e->{
 ////				  grid.setDisable(true);
 //				  draw.setStyle("-fx-cursor: hand;");
@@ -274,6 +283,38 @@ public class PlayGame {
 			  });
 	 }
 	 
+	 // functin to let copmuter choose spots for the user
+	 public void selectRandomSpots(GridPane grid , int numberOfSpots)
+	 {
+		 Random rand = new Random();
+		 HashMap<Integer,Boolean> randomNumbers = new HashMap<Integer,Boolean>();
+		 for(int i =0 ; i <totalNum; ++i)
+		 {
+			 num = rand.nextInt(80);
+			 randomNumbers.put(num,true);
+			 if (randomNumbers.size() <= numberOfSpots) {
+	                if (randomNumbers.size() == numberOfSpots) {
+	                    totalNum = numberOfSpots;
+	                }
+	                totalNum++;
+	                randomNumbers.put(num,true);
+	            }
+		 }
+		 j = 1 ;
+		 grid.getChildren().forEach(node -> {  
+			 PauseTransition pause = new PauseTransition(Duration.millis(500+(secs*100)));
+			 if(gridValue.containsKey(j) && randomNumbers.containsKey(j))
+			 {
+				 pause.play();
+				 NumberMap.put(j,true);
+				 pause.setOnFinished(e->node.setStyle("-fx-background-color: #3489eb;"));
+			 } 
+			 secs = secs + 1;
+			 j++;
+			
+			
+          });
+	 }
 	 // function to make the grid 
 	 public void addGrid(GridPane grid)
 	 {
