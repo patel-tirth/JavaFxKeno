@@ -22,6 +22,7 @@ import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.effect.GaussianBlur;
+import javafx.scene.effect.InnerShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Background;
@@ -36,7 +37,11 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
+import javafx.scene.text.TextAlignment;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
@@ -52,11 +57,15 @@ public class JavaFXTemplate extends Application {
 	private GridPane grid;
 	private Button playGame;
 	private static final int COLS=10, ROWS=8;
+//	private Title text;
+//	private ButtonMenu menubutton1;
 	
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		launch(args);
 	}
+	
+	
 
 	//feel free to remove the starter code from this method
 	@Override
@@ -71,7 +80,7 @@ public class JavaFXTemplate extends Application {
 	
 		Menu tab = new Menu("Menu"); // tab menu.. on click list the options
 		
-	 
+		tab.setGraphic(new ImageView("file:icon.png"));
 	
 		MenuItem opt1 = new MenuItem("Rules of the game");
 		MenuItem opt2 = new MenuItem("Odds of winning");
@@ -82,7 +91,134 @@ public class JavaFXTemplate extends Application {
 		
 		gameMenu.getMenus().addAll(tab);   // "Menu tab to the gameMenu bar"
 		
+		opt1.setOnAction(new EventHandler<ActionEvent>() {
+		    @Override public void handle(ActionEvent e) {
+//		    	DropShadow drop=new DropShadow();
+//				drop.setOffsetX(40.0);
+//				drop.setOffsetY(38.0);
+//		    	
+//		    	Rectangle rules = new Rectangle(500,500);
+//		    	rules.setX(140);
+//		    	rules.setY(60);
+//		    	rules.setOpacity(0.7);
+//				rules.setFill(Color.BLACK);
+//				rules.setEffect(new GaussianBlur(1.5));	
+//				rules.setEffect(drop);
+//				
+//				StackPane stack = new StackPane();
+//				
+//				Text ruleText = new Text("Rules:\n" +
+//		                "1. Pick either 1, 4, 8, or 10 numbers from the bet\n "+
+//						" card which has numbers ranging from 1 to 80. (or auto pick numbers)\n"+
+//		                "2. Select number of drawings (min 1, max 4).\n" +
+//		                "3. Each drawing consists 20 random numbers without duplicates.\n" +
+//		                "4. You can fill out a new bet card, spots to play and drawings \n"+
+//		                " after the current selected amount of drawings\n" +
+//		                " have been completed.");
+//				ruleText.setFill(Color.WHITE);
+//				ruleText.setTextAlignment(TextAlignment.CENTER);
+//				
+//				stack.setMargin(rules, new Insets(50,50,50,50));
+//				stack.getChildren().add(rules);
+//				stack.getChildren().add(ruleText);
+//				
+////				tab.getItems().addAll(opt1,opt2,opt3);
+////				gameMenu.getMenus().addAll(tab);
+//				
+//		        root.getChildren().addAll(stack);
+		    	
+		    	final Stage dialogBox = new Stage();
+		        dialogBox.initModality(Modality.APPLICATION_MODAL);
+		        dialogBox.initOwner(primaryStage);
+		        VBox dialogVbox = new VBox(20);
+		        Text text=new Text("Rules:\n" +
+		                "1. Pick either 1, 4, 8, or 10 numbers from the bet\n "+
+						" card which has numbers ranging from 1 to 80. (or auto pick numbers)\n"+
+		                "2. Select number of drawings (min 1, max 4).\n" +
+		                "3. Each drawing consists 20 random numbers without duplicates.\n" +
+		                "4. You can fill out a new bet card, spots to play and drawings \n"+
+		                " after the current selected amount of drawings\n" +
+		                " have been completed.");
+		        text.setFill(Color.BLUE);
+//		        dialogBox.
+		        
+		        dialogVbox.getChildren().add(text);
+		        
+		        Scene dialogScene = new Scene(dialogVbox, 500, 500);
+		        dialogBox.setScene(dialogScene);
+		        dialogBox.show();
+		        
+
+		    }
+		});
 		
+		opt2.setOnAction(new EventHandler<ActionEvent>() {
+		    @Override public void handle(ActionEvent e) {
+//		    	DropShadow drop=new DropShadow();
+//				drop.setOffsetX(40.0);
+//				drop.setOffsetY(38.0);
+//		    	
+//		    	Rectangle rules = new Rectangle(500,500);
+//		    	rules.setX(140);
+//		    	rules.setY(60);
+//		    	rules.setOpacity(0.7);
+//				rules.setFill(Color.BLACK);
+//				rules.setEffect(new GaussianBlur(1.5));	
+//				rules.setEffect(drop);
+//				
+//				opt1.setOnAction(null);
+////				opt1.disableProperty().set(true);
+//		        root.getChildren().add(rules);
+////		        title.setDisable(true);
+		    	
+		    	final Stage dialogBox = new Stage();
+		        dialogBox.initModality(Modality.APPLICATION_MODAL);
+		        dialogBox.initOwner(primaryStage);
+		        VBox dialogVbox = new VBox(20);
+		        Text text=new Text("Odds of winning:\n\n" +
+		                " 1 SPOT GAME\n" +
+		                " Match     Prize\n" +
+		                "     1           $2\n"+
+		                "Overall Odds: 1 in 4.00\n");
+		        Text text1=new Text(" 4 SPOT GAME\n" +
+		                " Match     Prize\n" +
+		                "     4          $75\n" +
+		                "     3           $5\n" +
+		                "     2           $1\n" +
+		                "Overall Odds: 1 in 3.86\n");
+		        Text text2=new Text(" 8 SPOT GAME\n" +
+		                " Match     Prize\n" +
+		                "     8      $10,000\n" +
+		                "     7         $150\n" +
+		                "     6          $50\n" +
+		                "     5          $12\n" +
+		                "     4           $1\n" +
+		                "Overall Odds: 1 in 9.77\n");
+		        Text text3=new Text(" 8 SPOT GAME\n" +
+		                " Match     Prize\n" +
+		                "    10     $100,000\n" +
+		                "     9       $4,250\n" +
+		                "     8         $450\n" +
+		                "     7          $40\n" +
+		                "     6          $15\n" +
+		                "     5           $2\n" +
+		                "     0           $5\n" +
+		                "Overall Odds: 1 in 9.05\n");
+
+		        
+		        dialogVbox.getChildren().addAll(text,text1,text2,text3);
+		        
+		        Scene dialogScene = new Scene(dialogVbox, 400, 600);
+		        dialogBox.setScene(dialogScene);
+		        dialogBox.show();
+		    }
+		});
+		
+		opt3.setOnAction(new EventHandler<ActionEvent>() {
+		    @Override public void handle(ActionEvent e) {
+		    	System.exit(0);
+		    }
+		});
 		
 		playGame = new Button("Lets Play");
 		playGame.setAlignment(Pos.CENTER);
@@ -100,18 +236,69 @@ public class JavaFXTemplate extends Application {
 		img.setFitWidth(800);
 		img.setFitHeight(800);
 		img.setFitWidth(800);
-//		
+
+		InnerShadow is = new InnerShadow();
+		is.setOffsetX(4.0f);
+		is.setOffsetY(4.0f);
+
+		Text title = new Text();
+		title.setEffect(is);
+		title.setX(-170);
+		title.setY(10);
+		title.setText("KENO LOTTERY");
+		title.setFill(Color.YELLOW);
+		title.setFont(Font.font(null, FontWeight.BOLD, 80));
+
+		title.setTranslateX(300);
+		title.setTranslateY(300);
 		
-		root.getChildren().addAll( img, gameMenu,playGame);
+		
+		
+		
+
+		
+		root.getChildren().addAll( img, gameMenu,playGame, title);
+		
 		
 
 		Scene scene = new Scene(root);
 		
 		primaryStage.setScene(scene);
 		primaryStage.show();
+		
+		
 	}
 	
+//	public void menuButton() {
+//		DropShadow drop=new DropShadow();
+//		drop.setOffsetX(40.0);
+//		drop.setOffsetY(38.0);
+//		
+//		Rectangle rules=new Rectangle(600,500);
+//		rules.setX(10);
+//		rules.setY(50);
+//		rules.setOpacity(0.4);
+//		rules.setFill(Color.BLACK);
+//		rules.setEffect(new GaussianBlur(1.5));	
+//		rules.setEffect(drop);
+//	}
 	
+
+//	private class ButtonMenu implements EventHandler<actionevent>{
+//		public void menuButton(ActionEvent event) {
+//			DropShadow drop=new DropShadow();
+//			drop.setOffsetX(40.0);
+//			drop.setOffsetY(38.0);
+//			
+//			Rectangle rules=new Rectangle(600,500);
+//			rules.setX(10);
+//			rules.setY(50);
+//			rules.setOpacity(0.4);
+//			rules.setFill(Color.BLACK);
+//			rules.setEffect(new GaussianBlur(1.5));	
+//			rules.setEffect(drop);
+//		}
+//	}
 	
 	
 //	private static class ButtonMenu extends StackPane {
