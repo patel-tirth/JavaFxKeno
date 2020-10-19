@@ -47,18 +47,10 @@ import javafx.util.Duration;
 
 public class JavaFXTemplate extends Application {
 	
-//	private Button b1;
-//	private Button b2;
-//	private Button b3;
-//	private Button changeBack;
-	
-//	private Menu gameMenu;
 	private MenuBar gameMenu;
 	private GridPane grid;
 	private Button playGame;
 	private static final int COLS=10, ROWS=8;
-//	private Title text;
-//	private ButtonMenu menubutton1;
 	
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
@@ -93,54 +85,24 @@ public class JavaFXTemplate extends Application {
 		
 		opt1.setOnAction(new EventHandler<ActionEvent>() {
 		    @Override public void handle(ActionEvent e) {
-//		    	DropShadow drop=new DropShadow();
-//				drop.setOffsetX(40.0);
-//				drop.setOffsetY(38.0);
-//		    	
-//		    	Rectangle rules = new Rectangle(500,500);
-//		    	rules.setX(140);
-//		    	rules.setY(60);
-//		    	rules.setOpacity(0.7);
-//				rules.setFill(Color.BLACK);
-//				rules.setEffect(new GaussianBlur(1.5));	
-//				rules.setEffect(drop);
-//				
-//				StackPane stack = new StackPane();
-//				
-//				Text ruleText = new Text("Rules:\n" +
-//		                "1. Pick either 1, 4, 8, or 10 numbers from the bet\n "+
-//						" card which has numbers ranging from 1 to 80. (or auto pick numbers)\n"+
-//		                "2. Select number of drawings (min 1, max 4).\n" +
-//		                "3. Each drawing consists 20 random numbers without duplicates.\n" +
-//		                "4. You can fill out a new bet card, spots to play and drawings \n"+
-//		                " after the current selected amount of drawings\n" +
-//		                " have been completed.");
-//				ruleText.setFill(Color.WHITE);
-//				ruleText.setTextAlignment(TextAlignment.CENTER);
-//				
-//				stack.setMargin(rules, new Insets(50,50,50,50));
-//				stack.getChildren().add(rules);
-//				stack.getChildren().add(ruleText);
-//				
-////				tab.getItems().addAll(opt1,opt2,opt3);
-////				gameMenu.getMenus().addAll(tab);
-//				
-//		        root.getChildren().addAll(stack);
+
 		    	
 		    	final Stage dialogBox = new Stage();
 		        dialogBox.initModality(Modality.APPLICATION_MODAL);
 		        dialogBox.initOwner(primaryStage);
 		        VBox dialogVbox = new VBox(20);
 		        Text text=new Text("Rules:\n" +
-		                "1. Pick either 1, 4, 8, or 10 numbers from the bet\n "+
-						" card which has numbers ranging from 1 to 80. (or auto pick numbers)\n"+
+		        		"1. Fill in a KENO play slip with the number of spots\n "+
+						" you want to play per game. \n"+
+		                " Choose 1, 4, 8 or 10 spots.\n"+
 		                "2. Select number of drawings (min 1, max 4).\n" +
-		                "3. Each drawing consists 20 random numbers without duplicates.\n" +
-		                "4. You can fill out a new bet card, spots to play and drawings \n"+
-		                " after the current selected amount of drawings\n" +
-		                " have been completed.");
+		                "3. Each drawing out of selected number of drawings \n"+ 
+		                "consists 20 random numbers without duplicates.\n" +
+		                "4. It is possible for you to select a new bet card, \n"+
+		                " spots to play and drawings"+
+		                " after your current drawings have been completed.");
 		        text.setFill(Color.BLUE);
-//		        dialogBox.
+
 		        
 		        dialogVbox.getChildren().add(text);
 		        
@@ -154,23 +116,7 @@ public class JavaFXTemplate extends Application {
 		
 		opt2.setOnAction(new EventHandler<ActionEvent>() {
 		    @Override public void handle(ActionEvent e) {
-//		    	DropShadow drop=new DropShadow();
-//				drop.setOffsetX(40.0);
-//				drop.setOffsetY(38.0);
-//		    	
-//		    	Rectangle rules = new Rectangle(500,500);
-//		    	rules.setX(140);
-//		    	rules.setY(60);
-//		    	rules.setOpacity(0.7);
-//				rules.setFill(Color.BLACK);
-//				rules.setEffect(new GaussianBlur(1.5));	
-//				rules.setEffect(drop);
-//				
-//				opt1.setOnAction(null);
-////				opt1.disableProperty().set(true);
-//		        root.getChildren().add(rules);
-////		        title.setDisable(true);
-		    	
+
 		    	final Stage dialogBox = new Stage();
 		        dialogBox.initModality(Modality.APPLICATION_MODAL);
 		        dialogBox.initOwner(primaryStage);
@@ -252,14 +198,7 @@ public class JavaFXTemplate extends Application {
 		title.setTranslateX(300);
 		title.setTranslateY(300);
 		
-		
-		
-		
-
-		
-		root.getChildren().addAll( img, gameMenu,playGame, title);
-		
-		
+		root.getChildren().addAll( img, gameMenu,playGame, title);	
 
 		Scene scene = new Scene(root);
 		
@@ -269,187 +208,4 @@ public class JavaFXTemplate extends Application {
 		
 	}
 	
-//	public void menuButton() {
-//		DropShadow drop=new DropShadow();
-//		drop.setOffsetX(40.0);
-//		drop.setOffsetY(38.0);
-//		
-//		Rectangle rules=new Rectangle(600,500);
-//		rules.setX(10);
-//		rules.setY(50);
-//		rules.setOpacity(0.4);
-//		rules.setFill(Color.BLACK);
-//		rules.setEffect(new GaussianBlur(1.5));	
-//		rules.setEffect(drop);
-//	}
-	
-
-//	private class ButtonMenu implements EventHandler<actionevent>{
-//		public void menuButton(ActionEvent event) {
-//			DropShadow drop=new DropShadow();
-//			drop.setOffsetX(40.0);
-//			drop.setOffsetY(38.0);
-//			
-//			Rectangle rules=new Rectangle(600,500);
-//			rules.setX(10);
-//			rules.setY(50);
-//			rules.setOpacity(0.4);
-//			rules.setFill(Color.BLACK);
-//			rules.setEffect(new GaussianBlur(1.5));	
-//			rules.setEffect(drop);
-//		}
-//	}
-	
-	
-//	private static class ButtonMenu extends StackPane {
-//		private Text buttonText;
-//		
-//		public ButtonMenu(String name) {
-//			buttonText=new Text(name);
-//			buttonText.setFont(buttonText.getFont().font(20));
-//			buttonText.setFill(Color.WHITE);
-//			Rectangle box=new Rectangle(270,50);
-//			box.setOpacity(0.4);
-//			box.setFill(Color.BLACK);
-//			box.setEffect(new GaussianBlur(3.5));
-//			setAlignment(Pos.CENTER);
-//			getChildren().addAll(box,buttonText);
-//			
-//			setOnMouseEntered(event->{
-//				buttonText.setFill(Color.BLACK);
-//				box.setFill(Color.WHITE);
-//				box.setStroke(Color.GREEN);
-//			});
-//			
-//			setOnMouseExited(event->{
-//				buttonText.setTranslateX(0);
-//				buttonText.setFill(Color.WHITE);
-//				box.setTranslateX(0);
-//				box.setFill(Color.BLACK);
-//				box.setStroke(Color.WHITE);
-//				box.setStrokeWidth(0.0f);
-//			});
-//			
-//			
-//		}
-//	}
-//		
-		
-//	private class Menu extends Parent{
-//		private Text text;
-//		
-//		public Pane drawGrid() {
-//			grid = new GridPane();
-//			grid.setLayoutX(400);
-//			grid.setLayoutY(100);
-//
-//			for(int rowIndex = 0; rowIndex < ROWS ; rowIndex++) {
-//	            Node[] nodes = new Node[COLS];
-//	            for(int colIndex = 0; colIndex < COLS ; colIndex++) {
-//	                Button node= new Button(colIndex+1+"");
-//	                nodes[colIndex]= node;
-//	            }
-//	            grid.addRow(rowIndex, nodes);
-//	        }
-//	        return grid;
-//		}
-//		
-//		public Menu() {
-//			VBox mainMenu = new VBox(20);
-//			DropShadow drop=new DropShadow();
-//			drop.setOffsetX(40.0);
-//			drop.setOffsetY(38.0);
-//			
-//			Rectangle rules=new Rectangle(600,500);
-//			rules.setX(10);
-//			rules.setY(50);
-//			rules.setOpacity(0.4);
-//			rules.setFill(Color.BLACK);
-//			rules.setEffect(new GaussianBlur(1.5));	
-//			rules.setEffect(drop);
-
-//			
-//			VBox root = new VBox(50);
-//	        root.setPadding(new Insets(60, 50,60,60));
-//	        
-//	        
-//			
-//			
-//			text=new Text("Game Rules are shown over here");
-//			text.setFont(text.getFont().font(20));
-//			text.setFill(Color.WHITE);
-//			
-//			
-//				
-//			mainMenu.setTranslateX(100);
-//			mainMenu.setTranslateY(200);
-//			
-//			final int offset=100;
-//			rules.setTranslateX(offset);
-//			
-//			ButtonMenu buttonRules= new ButtonMenu("Rules of the game");
-//			buttonRules.setOnMouseClicked(event->{
-//				
-//
-//				getChildren().addAll(rules, text);
-//				TranslateTransition toRules = new TranslateTransition(Duration.seconds(0.25), mainMenu);
-//				toRules.setToX(mainMenu.getTranslateX() - offset);
-//				
-//				TranslateTransition toNewRules = new TranslateTransition(Duration.seconds(0.15), mainMenu);
-//				toNewRules.setToX(rules.getTranslateX());
-//				
-//				toRules.play();
-//				toNewRules.play();
-//				
-//				toRules.setOnFinished(evt->{
-//					getChildren().remove(mainMenu);
-//				});
-//				
-//				
-//			});
-//			
-//			ButtonMenu buttonWins = new ButtonMenu("Odds of Winning");
-//////			buttonWins.setOnMouseClicked(event->{
-//////
-//////				
-//////			});
-//				
-//			ButtonMenu buttonExit = new ButtonMenu("Exit Game");
-//			buttonWins.setOnMouseClicked(event->{
-//				System.exit(0);
-//			});
-//			
-//			ButtonMenu buttonPlay = new ButtonMenu("Play");
-//			buttonPlay.setOnMouseClicked(event->{
-//				
-//				getChildren().addAll(root, drawGrid());
-//				TranslateTransition toRules = new TranslateTransition(Duration.seconds(0.25), mainMenu);
-//				toRules.setToX(mainMenu.getTranslateX() - offset);
-//				
-//				TranslateTransition toNewRules = new TranslateTransition(Duration.seconds(0.15), mainMenu);
-//				toNewRules.setToX(root.getTranslateX());
-//				
-//				toRules.play();
-//				toNewRules.play();
-//				
-//				toRules.setOnFinished(evt->{
-//					getChildren().remove(mainMenu);
-//				});
-//				
-//			});	
-//			
-//			mainMenu.getChildren().addAll(buttonRules, buttonWins, buttonExit, buttonPlay);
-//			Rectangle allButtBack=new Rectangle(800,600);
-//			allButtBack.setFill(Color.GREY);
-//			allButtBack.setOpacity(0.4);
-//			getChildren().addAll(allButtBack, mainMenu);
-//		}
-//	}
-
-
-
-		
-		
-	
-
 }

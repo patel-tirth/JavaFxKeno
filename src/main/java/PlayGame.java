@@ -48,6 +48,19 @@ public class PlayGame {
      int count = 0;  // to keep track on total number of spots selected from bet grid (1,4,8,10)
 	String spotNumber; // string to store the spot selected
 	String drawNumber; // to select the number  of draws
+	
+	ToggleButton spot1;
+	ToggleButton spot4;
+	ToggleButton spot8;
+	ToggleButton spot10;
+	
+	ToggleButton draw1;
+	ToggleButton draw2;
+	ToggleButton draw3;
+	ToggleButton draw4;
+	
+	
+	int start_stop=0;
 
 	HashMap<Integer, Boolean> NumberMap = new HashMap<Integer, Boolean>();
 	HashMap<Integer, Boolean> gridValue = new HashMap<Integer, Boolean>();
@@ -68,11 +81,28 @@ public class PlayGame {
 	public Scene getGameScene() 
 	 
 	 {
+		
 		Pane gamePane = new Pane();
 		gamePane.setPrefSize(800,600);
-		
+		GridPane grid= new GridPane();
+		grid.setStyle("-fx-cursor: hand;");
 		Button newGame = new Button("New Game");
 		newGame.setLayoutX(450);
+		
+		newGame.setOnAction(e->{
+			grid.setDisable(false);
+			new_game(grid);
+			spot1.setDisable(false);
+			spot4.setDisable(false);
+			spot8.setDisable(false);
+			spot10.setDisable(false);
+			
+			draw1.setDisable(false);
+			draw2.setDisable(false);
+			draw3.setDisable(false);
+			draw4.setDisable(false);
+			
+		});
 		
 		resultButton.setLayoutX(300);
 		
@@ -86,52 +116,137 @@ public class PlayGame {
 	
 		gameMenu2.getMenus().addAll(tab);
 		
+		opt1.setOnAction(new EventHandler<ActionEvent>() {
+		    @Override public void handle(ActionEvent e) {
+		    		    	
+		    	Alert rules_alert=new Alert(AlertType.INFORMATION);
+		    	rules_alert.setTitle("Rules of the game");
+		    	String text="Rules:\n" + 
+		    			"1. Fill in a KENO play slip with the number of spots\n" + 
+		    			" you want to play per game. \n" + 
+		    			" Choose 1, 4, 8 or 10 spots.\n" + 
+		    			"2. Select number of drawings (min 1, max 4).\n" + 
+		    			"3. Each drawing out of selected number of drawings \n" + 
+		    			"consists 20 random numbers without duplicates.\n" + 
+		    			"4. It is possible for you to select a new bet card,\n" + 
+		    			" spots to play and drawings\n" + 
+		    			" after your current drawings have been completed.";
+		    	rules_alert.setContentText(text);
+		    	rules_alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
+		    	rules_alert.show();
+		    	
+		    }
+		});
+		
+		opt2.setOnAction(new EventHandler<ActionEvent>() {
+		    @Override public void handle(ActionEvent e) {
+
+		    	Alert rules_alert=new Alert(AlertType.INFORMATION);
+		    	rules_alert.setTitle("Rules of the game");
+		        String text="Odds of winning:\n\n" +
+		                " 1 SPOT GAME\n" +
+		                " Match     Prize\n" +
+		                "     1           $2\n"+
+		                "Overall Odds: 1 in 4.00\n\n"+
+		        		" 4 SPOT GAME\n" +
+		                " Match     Prize\n" +
+		                "     4          $75\n" +
+		                "     3           $5\n" +
+		                "     2           $1\n" +
+		                "Overall Odds: 1 in 3.86\n\n"+
+		        		" 8 SPOT GAME\n" +
+		                " Match     Prize\n" +
+		                "     8      $10,000\n" +
+		                "     7         $150\n" +
+		                "     6          $50\n" +
+		                "     5          $12\n" +
+		                "     4           $1\n" +
+		                "Overall Odds: 1 in 9.77\n\n"+
+		        		" 10 SPOT GAME\n" +
+		                " Match     Prize\n" +
+		                "    10     $100,000\n" +
+		                "     9       $4,250\n" +
+		                "     8         $450\n" +
+		                "     7          $40\n" +
+		                "     6          $15\n" +
+		                "     5           $2\n" +
+		                "     0           $5\n" +
+		                "Overall Odds: 1 in 9.05\n";
+
+		        rules_alert.setContentText(text);
+		    	rules_alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
+		    	rules_alert.show();
+		    	
+		        
+		    }
+		});
+		
+		opt3.setOnAction(new EventHandler<ActionEvent>() {
+		    @Override public void handle(ActionEvent e) {
+		    	System.exit(0);
+		    }
+		});
+		
+		
 		opt4.setOnAction(e->{
 			gamePane.setStyle("-fx-background-color: #a3816d;");
 		});
-		GridPane grid= new GridPane();
-		grid.setStyle("-fx-cursor: hand;");
 		
-	   selectSpots(gamePane , grid); // pass a new grid to select a spot
+		
+	    selectSpots(gamePane , grid); // pass a new grid to select a spot
 		grid.setAlignment(Pos.CENTER);
 		addGrid(grid);
 		grid.setDisable(true);
 		gamePane.getChildren().addAll(grid,gameMenu2,newGame, resultButton);
-//		newGame.setOnAction(e->{
-//			Scene scene = newGameScene(gamePane);
-//			return scene;
-//		});
+		
+		for(int i = 1; i < 81; i++) {
+			gridValue.put(i, false);
+		}
 		return new Scene(gamePane,700,700);
 
 	  }
+	
+	
+	public void new_game(GridPane grid) {
+		
+		if(start_stop == 0) {
+			for(Node child: grid.getChildren()) {
+				 (child).setStyle(null);
+			 }
+			for(int i = 1; i < 81; i++) {
+				gridValue.put(i, false);
+			}
+			randomNumbers.clear();
+		}	
+	}
 	 
 	 // function to select the number of spots to play and enable disable grid accordingly 
 	 public void selectSpots(Pane gamePane, GridPane grid)
 	 {
 		
 		Text text = new Text();
-    text.setText("How many spots do you want to play?");
+		text.setText("How many spots do you want to play?");
      
-    Text text2 = new Text();
-    text2.setText("How many draws do you want to play?");
+		Text text2 = new Text();
+		text2.setText("How many draws do you want to play?");
     
-    ToggleGroup group = new ToggleGroup();
-    ToggleGroup group2 = new ToggleGroup();
+		ToggleGroup group = new ToggleGroup();
+		ToggleGroup group2 = new ToggleGroup();
     	
-	    ToggleButton spot1 = new ToggleButton("1");
+	    spot1 = new ToggleButton("1");
 	    
 	 
-	    ToggleButton spot4 = new ToggleButton("4");
+	    spot4 = new ToggleButton("4");
 	   
-	    ToggleButton spot8 = new ToggleButton("8");
+	    spot8 = new ToggleButton("8");
 	  
-	    ToggleButton spot10 = new ToggleButton("10"); 
+	    spot10 = new ToggleButton("10"); 
 	    
 	    // to select number of draws
-	    ToggleButton draw1 = new ToggleButton("1");
-	    ToggleButton draw2 = new ToggleButton("2");
-	    ToggleButton draw3 = new ToggleButton("3");
-	    ToggleButton draw4 = new ToggleButton("4");
+	    draw1 = new ToggleButton("1");
+	    draw2 = new ToggleButton("2");
+	    draw3 = new ToggleButton("3");
+	    draw4 = new ToggleButton("4");
 	    
 	    spot1.setToggleGroup(group);
 	    spot4.setToggleGroup(group);
@@ -199,47 +314,49 @@ public class PlayGame {
 		});
 		
 		NumOfDraws.setOnAction(e->{
-			Toggle selectedDraw = group2.getSelectedToggle();
-			if(selectedDraw == draw1)
-			{
-				drawNumber = draw1.getText();
-				draw1.setStyle("-fx-background-color: #34ebd5;");
-				grid.setDisable(false);
-				draw2.setDisable(true);
-				draw3.setDisable(true);
-				draw4.setDisable(true);
+			if(start_stop==0) {
+				Toggle selectedDraw = group2.getSelectedToggle();
+				if(selectedDraw == draw1)
+				{
+					drawNumber = draw1.getText();
+					draw1.setStyle("-fx-background-color: #34ebd5;");
+					grid.setDisable(false);
+					draw2.setDisable(true);
+					draw3.setDisable(true);
+					draw4.setDisable(true);
+				}
+				if(selectedDraw == draw2)
+				{
+					drawNumber = draw2.getText();
+					draw2.setStyle("-fx-background-color: #34ebd5;");
+					grid.setDisable(false);
+					draw1.setDisable(true);
+					draw3.setDisable(true);
+					draw4.setDisable(true);
+				}
+				if(selectedDraw == draw3)
+				{
+					drawNumber = draw3.getText();
+					draw3.setStyle("-fx-background-color: #34ebd5;");
+					grid.setDisable(false);
+					draw1.setDisable(true);
+					draw2.setDisable(true);
+					draw4.setDisable(true);
+				}
+				if(selectedDraw == draw4)
+				{
+					drawNumber = draw4.getText();
+					draw4.setStyle("-fx-background-color: #34ebd5;");
+					grid.setDisable(false);
+					draw1.setDisable(true);
+					draw2.setDisable(true);
+					draw3.setDisable(true);
+				}
+				
+				int numberOfSpots =Integer.parseInt(spotNumber);  
+				int numberOfDraws = Integer.parseInt(drawNumber);
+				 fillOutSpots(grid,numberOfSpots, gamePane,numberOfDraws); // function call to fill the spots
 			}
-			if(selectedDraw == draw2)
-			{
-				drawNumber = draw2.getText();
-				draw2.setStyle("-fx-background-color: #34ebd5;");
-				grid.setDisable(false);
-				draw1.setDisable(true);
-				draw3.setDisable(true);
-				draw4.setDisable(true);
-			}
-			if(selectedDraw == draw3)
-			{
-				drawNumber = draw3.getText();
-				draw3.setStyle("-fx-background-color: #34ebd5;");
-				grid.setDisable(false);
-				draw1.setDisable(true);
-				draw2.setDisable(true);
-				draw4.setDisable(true);
-			}
-			if(selectedDraw == draw4)
-			{
-				drawNumber = draw4.getText();
-				draw4.setStyle("-fx-background-color: #34ebd5;");
-				grid.setDisable(false);
-				draw1.setDisable(true);
-				draw2.setDisable(true);
-				draw3.setDisable(true);
-			}
-			
-			int numberOfSpots =Integer.parseInt(spotNumber);  
-			int numberOfDraws = Integer.parseInt(drawNumber);
-			 fillOutSpots(grid,numberOfSpots, gamePane,numberOfDraws); // function call to fill the spots
 		});
 		
 		 gamePane.getChildren().addAll(vbox,vbox2);
@@ -251,17 +368,17 @@ public class PlayGame {
 	 
 	 public HashSet<Integer> randNumGenerator()
 	 {
-//		 j =1 ;   // grid starts from 1
+		 randomNumbers.clear();
+		 int j =1 ;   // grid starts from 1
 		 Random rand = new Random();
-		 
-		 while(randomNumbers.size() <= 20)
-		 {
-			 while (randomNumbers.add(rand.nextInt(80)) != true);
+		 while(j != 21) {
+			 int temp = rand.nextInt(80);
+			 if(!randomNumbers.contains(temp)) {
+				 randomNumbers.add(temp);
+				 j++;
+			 }
 		 }
 		 return randomNumbers;
-		 
-		 
-
 	 }
 	 
 	 // Lottery results
@@ -336,13 +453,12 @@ public class PlayGame {
 			 int spotNumber,int numdraws, int drawNumber)
 	 {
 	 
-//		 System.out.println(NumberMap.keySet());
 		int x = 0;
 		 while (x <  drawNumber)
 		 {
 			 x ++;
-		 HashSet<Integer> randomNumbers = randNumGenerator();
-		 j = 1;
+			 HashSet<Integer> randomNumbers = randNumGenerator();
+			 j = 1;
 		
 		 grid.getChildren().forEach(node -> { 
 			 PauseTransition pause = new PauseTransition(Duration.millis(500+(secs*100)));	
@@ -360,13 +476,7 @@ public class PlayGame {
 				 pause.setOnFinished(e->node.setStyle("-fx-background-color: green;"));
 				
 			 }	
-//			  if(drawNumber >1   && randomNumbers.contains(j) )
-//				 {
-//					 pause.play();
-//					 pause.setOnFinished(e->node.setStyle(null));
-//					
-//				 }
-			  
+
 			 secs ++;
 			 j++;   
 			 resultButton.setOnAction(e->{
@@ -374,11 +484,32 @@ public class PlayGame {
 			 });
 
 		 });
+		 
+		 PauseTransition pause2 = new PauseTransition(Duration.millis(500+(secs*100)));
+		 pause2.play();
+		 pause2.setOnFinished(e->drawReset(grid));
+		 
+		 if(x==drawNumber) {
+			 PauseTransition pause3 = new PauseTransition(Duration.millis(500+(secs*100)));
+			 pause3.play();
+			 pause3.setOnFinished(e->start_stop=0);
+			 
+		 }
+		 
 		 }
 		
-//		
-		
-		
+	 }
+	 
+	 public void drawReset(GridPane grid) {
+		 int i = 1;
+		 for(Node child: grid.getChildren()) {
+			 if(gridValue.get(i)== true) {
+				 (child).setStyle("-fx-background-color: #3489eb;");
+			 } else {
+				 (child).setStyle(null);
+			 }
+			 i++;
+		 }
 	 }
 	 
 	 // function to fill the bet card
@@ -437,48 +568,50 @@ public class PlayGame {
 			
 			
 			draw.setOnAction(e->{	
-//				if(numdraws == NumOfDraws)
-//					draw.setDisable(true);
-				
-//		 		numdraws++;
-		   grid.setDisable(true);
-		   draw.setText("Draw "+numdraws);
 
-		  generateRandNum(grid,NumberMap,gamePane,draw,spotNumber,numdraws,NumOfDraws);
+				grid.setDisable(true);
+				start_stop=1;
+				generateRandNum(grid,NumberMap,gamePane,draw,spotNumber,numdraws,NumOfDraws);
 				  	
-			  });
+			});
 			
 //		}
 				 
 		
 	 }
 	 
+	 
 	 // function to let computer choose spots for the user
 	 public void selectRandomSpots(GridPane grid , int numberOfSpots)
 	 {
-		 Random rand = new Random();
-		 HashSet<Integer> randomNumbers = new HashSet<Integer>();
-		  Random rand2 = new Random();
-		 
-		 while(randomNumbers.size() < numberOfSpots)
-		 {
-			 while (randomNumbers.add(rand2.nextInt(80)) != true);
-		 }
-		 
-		 j = 1 ;
-		 grid.getChildren().forEach(node -> {  
-			 PauseTransition pause = new PauseTransition(Duration.millis(500+(secs*100)));
-			 if(gridValue.containsKey(j) && randomNumbers.contains(j))
+		if(numberOfSpots != NumberMap.size()) {
+			Random rand = new Random();
+			 HashSet<Integer> randomNumbers = new HashSet<Integer>();
+			  Random rand2 = new Random();
+			 
+			 while(randomNumbers.size() < numberOfSpots)
 			 {
-				 pause.play();
-				 NumberMap.put(j,true);
-				 pause.setOnFinished(e->node.setStyle("-fx-background-color: #3489eb;"));
-			 } 
-			 secs = secs + 1;
-			 j++;
-			
-			
-          });
+				 while (randomNumbers.add(rand2.nextInt(80)) != true);
+			 }
+			 
+			 j = 1 ;
+			 grid.getChildren().forEach(node -> {  
+				 PauseTransition pause = new PauseTransition(Duration.millis(500+(secs*100)));
+				 if(gridValue.containsKey(j) && randomNumbers.contains(j))
+				 {
+					 pause.play();
+					 NumberMap.put(j,true);
+					 gridValue.put(j, true);
+					 pause.setOnFinished(e->node.setStyle("-fx-background-color: #3489eb;"));
+				 } 
+				 secs = secs + 1;
+				 j++;
+				
+				
+	          });
+		}
+		 
+		 
 	 }
 	 // function to make the grid 
 	 public void addGrid(GridPane grid)
