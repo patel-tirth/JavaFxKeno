@@ -42,7 +42,7 @@ public class PlayGame {
 	public int num =0 ;
 	public int totalNum = 20;
 	public int j;
-	int NumDraws = 1;
+	int numdraws = 1 ;
 	private MenuBar gameMenu2;
 	int secs= 0 ;
      int count = 0;  // to keep track on total number of spots selected from bet grid (1,4,8,10)
@@ -254,7 +254,7 @@ public class PlayGame {
 //		 j =1 ;   // grid starts from 1
 		 Random rand = new Random();
 		 
-		 while(randomNumbers.size() <  20)
+		 while(randomNumbers.size() <= 20)
 		 {
 			 while (randomNumbers.add(rand.nextInt(80)) != true);
 		 }
@@ -330,53 +330,59 @@ public class PlayGame {
 		result.show();
 	}
 	 
-	 
+	
 	 // Function to
-	 public void generateRandNum(GridPane grid, HashMap<Integer, Boolean> NumberMap,Pane gamePane, int NumDraws,Button draw,
-			 int spotNumber)
+	 public void generateRandNum(GridPane grid, HashMap<Integer, Boolean> NumberMap,Pane gamePane,Button draw,
+			 int spotNumber,int numdraws, int drawNumber)
 	 {
-		 
+	 
 //		 System.out.println(NumberMap.keySet());
-		 j = 1;
-		 
+		int x = 0;
+		 while (x <  drawNumber)
+		 {
+			 x ++;
 		 HashSet<Integer> randomNumbers = randNumGenerator();
-		 
+		 j = 1;
+		
 		 grid.getChildren().forEach(node -> { 
 			 PauseTransition pause = new PauseTransition(Duration.millis(500+(secs*100)));	
-//			 if(NumDraws > 1 && randomNumbers.contains(j) && gridValue.containsKey(j) )
-//				 {
-////					 pause.play();
-//					 node.setStyle(null);
-////					 generateRandNum( grid,  NumberMap,gamePane,NumDraws,draw);
-//					 
-//				 }
 			 
 			
-			 if(gridValue.containsKey(j)== true && randomNumbers.contains(j))
+			 if(randomNumbers.contains(j))
 			 {
 				 pause.play();
 				 pause.setOnFinished(e->node.setStyle("-fx-background-color: red;"));
-			 } 
-			 if(NumberMap.containsKey(j)== true && randomNumbers.contains(j) )
+			 } 	
+			  if(NumberMap.containsKey(j)== true && randomNumbers.contains(j) )
 			 {
 				 WinSet.add(j);
 				 pause.play();
 				 pause.setOnFinished(e->node.setStyle("-fx-background-color: green;"));
 				
-			 }
-//			
-			 ++secs;
+			 }	
+//			  if(drawNumber >1   && randomNumbers.contains(j) )
+//				 {
+//					 pause.play();
+//					 pause.setOnFinished(e->node.setStyle(null));
+//					
+//				 }
+			  
+			 secs ++;
 			 j++;   
+			 resultButton.setOnAction(e->{
+				 lotteryResults(WinSet,spotNumber);
+			 });
 
 		 });
-		 resultButton.setOnAction(e->{
-			 lotteryResults(WinSet,spotNumber);
-		 });
-		 
+		 }
+		
+//		
+		
+		
 	 }
 	 
 	 // function to fill the bet card
-	 public void fillOutSpots(GridPane grid, int spotNumber,Pane gamePane,int drawNumber)
+	 public void fillOutSpots(GridPane grid, int spotNumber,Pane gamePane,int NumOfDraws)
 	 { 
 			  grid.getChildren().forEach(node -> {   // for each node in the grid pane,
 				                                     // let user click any random number based on spots selected
@@ -430,15 +436,15 @@ public class PlayGame {
 				 });
 			
 			
-			draw.setOnAction(e->{
-				if(NumDraws == drawNumber)
-					draw.setDisable(true);
+			draw.setOnAction(e->{	
+//				if(numdraws == NumOfDraws)
+//					draw.setDisable(true);
 				
-			NumDraws++;
-		 		
+//		 		numdraws++;
 		   grid.setDisable(true);
-		   draw.setText("Draw "+NumDraws);
-		  generateRandNum(grid,NumberMap,gamePane,NumDraws,draw,spotNumber);
+		   draw.setText("Draw "+numdraws);
+
+		  generateRandNum(grid,NumberMap,gamePane,draw,spotNumber,numdraws,NumOfDraws);
 				  	
 			  });
 			
