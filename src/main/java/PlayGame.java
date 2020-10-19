@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Random;
@@ -12,6 +13,8 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonBase;
 import javafx.scene.control.Menu;
@@ -27,6 +30,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
@@ -34,12 +38,11 @@ import javafx.scene.text.TextAlignment;
 import javafx.util.Duration;
 
 public class PlayGame {
-//	
-//	BorderPane borderPane = new BorderPane();
+
 	public int num =0 ;
-	public int totalNum = 20	;
+	public int totalNum = 20;
 	public int j;
-	int NumDraws = 0 ;
+	int NumDraws = 1;
 	private MenuBar gameMenu2;
 	int secs= 0 ;
      int count = 0;  // to keep track on total number of spots selected from bet grid (1,4,8,10)
@@ -49,7 +52,10 @@ public class PlayGame {
 	HashMap<Integer, Boolean> NumberMap = new HashMap<Integer, Boolean>();
 	HashMap<Integer, Boolean> gridValue = new HashMap<Integer, Boolean>();
 	 HashSet<Integer> randomNumbers = new HashSet<Integer>();
-
+	 HashSet<Integer> WinSet = new HashSet<Integer>();  // to store winning results
+	 Button resultButton = new Button("Show Results!");
+	 
+	 int Money =0;
 	 public PlayGame() {
 		// TODO Auto-generated constructor stub
 	}
@@ -68,6 +74,7 @@ public class PlayGame {
 		Button newGame = new Button("New Game");
 		newGame.setLayoutX(450);
 		
+		resultButton.setLayoutX(300);
 		
 		gameMenu2= new MenuBar();
 		Menu tab = new Menu("Menu");
@@ -89,7 +96,7 @@ public class PlayGame {
 		grid.setAlignment(Pos.CENTER);
 		addGrid(grid);
 		grid.setDisable(true);
-		gamePane.getChildren().addAll(grid,gameMenu2,newGame);
+		gamePane.getChildren().addAll(grid,gameMenu2,newGame, resultButton);
 //		newGame.setOnAction(e->{
 //			Scene scene = newGameScene(gamePane);
 //			return scene;
@@ -240,44 +247,111 @@ public class PlayGame {
 	
 	 }
 	 
-	 //
+	 // 
 	 
 	 public HashSet<Integer> randNumGenerator()
 	 {
-		 j =1 ;   // grid starts from 1
+//		 j =1 ;   // grid starts from 1
 		 Random rand = new Random();
-		
-		 for(int i =0 ; i <totalNum; ++i)
+		 
+		 while(randomNumbers.size() <  20)
 		 {
-			
-			 num = rand.nextInt(80);
-			 randomNumbers.add(num);
-			 if (randomNumbers.size() <= 20) {
-	                if (randomNumbers.size() == 20) {
-	                    totalNum = 20;
-	                }
-	                totalNum++;
-	                randomNumbers.add(num);
-	            }
+			 while (randomNumbers.add(rand.nextInt(80)) != true);
 		 }
 		 return randomNumbers;
-	 }
-	 // Function to
-	 public void generateRandNum(GridPane grid, HashMap<Integer, Boolean> NumberMap,Pane gamePane, int NumDraws,Button draw)
-	 {
-//		 System.out.println(NumberMap.keySet());
-		 if(NumDraws == 2)
-			 draw.setText("Draw 2");
-		 if(NumDraws == 3)
-			 draw.setText("Draw 3");
-		 if(NumDraws == 4)
-			 draw.setText("Draw 4");
+		 
+		 
 
+	 }
+	 
+	 // Lottery results
+	public void lotteryResults(HashSet<Integer> WinSet,int spotNumber)
+	{
+		Alert result = new Alert(AlertType.INFORMATION);
+		result.setTitle("Lottery Results");
+		if(spotNumber == 10)
+		{
+			if(WinSet.size() == 10)
+				Money = 100000;
+			else if (WinSet.size() == 9)
+				Money = 4250;
+			else if (WinSet.size() == 8)
+				Money = 450;
+			else if (WinSet.size() == 7)
+				Money = 40;
+			else if (WinSet.size() == 6)
+				Money = 15;
+			else if (WinSet.size() == 5)
+				Money = 2;
+			else
+				Money = 5;
+			
+		}
+		if(spotNumber == 8)
+		{
+			if(WinSet.size() == 8)
+				Money = 10000;
+			else if (WinSet.size() == 7)
+				Money = 750;
+			else if (WinSet.size() == 8)
+				Money = 450;
+			else if (WinSet.size() == 6)
+				Money = 50;
+			else if (WinSet.size() == 5)
+				Money = 12;
+			else if (WinSet.size() == 4)
+				Money = 2;
+			else
+				Money = 0;
+			
+		}
+		if(spotNumber == 4)
+		{
+			if(WinSet.size() == 4)
+				Money = 75;
+			else if (WinSet.size() == 3)
+				Money = 5;
+			else if (WinSet.size() == 2)
+				Money = 1;
+			else
+				Money = 0;
+			
+		}
+		if(spotNumber == 1)
+		{
+			if(WinSet.size() == 1)
+				Money = 2;
+			else
+				Money = 0;
+			
+		}
+		String text = "Price won for this round is $"+ Money;
+		result.setContentText(text);
+		result.show();
+	}
+	 
+	 
+	 // Function to
+	 public void generateRandNum(GridPane grid, HashMap<Integer, Boolean> NumberMap,Pane gamePane, int NumDraws,Button draw,
+			 int spotNumber)
+	 {
+		 
+//		 System.out.println(NumberMap.keySet());
+		 j = 1;
+		 
 		 HashSet<Integer> randomNumbers = randNumGenerator();
 		 
 		 grid.getChildren().forEach(node -> { 
+			 PauseTransition pause = new PauseTransition(Duration.millis(500+(secs*100)));	
+//			 if(NumDraws > 1 && randomNumbers.contains(j) && gridValue.containsKey(j) )
+//				 {
+////					 pause.play();
+//					 node.setStyle(null);
+////					 generateRandNum( grid,  NumberMap,gamePane,NumDraws,draw);
+//					 
+//				 }
 			 
-			 PauseTransition pause = new PauseTransition(Duration.millis(500+(secs*100)));
+			
 			 if(gridValue.containsKey(j)== true && randomNumbers.contains(j))
 			 {
 				 pause.play();
@@ -285,21 +359,20 @@ public class PlayGame {
 			 } 
 			 if(NumberMap.containsKey(j)== true && randomNumbers.contains(j) )
 			 {
+				 WinSet.add(j);
 				 pause.play();
 				 pause.setOnFinished(e->node.setStyle("-fx-background-color: green;"));
+				
 			 }
-			 if(NumDraws > 1 && gridValue.containsKey(j)== true && randomNumbers.contains(j))
-			 {
-//				 pause.play();
-				 node.setStyle(null);
-//				 generateRandNum( grid,  NumberMap,gamePane,NumDraws,draw);
-				 
-			 }
-			 secs = secs + 2;
-			 j++;
-			 
+//			
+			 ++secs;
+			 j++;   
+
 		 });
- 
+		 resultButton.setOnAction(e->{
+			 lotteryResults(WinSet,spotNumber);
+		 });
+		 
 	 }
 	 
 	 // function to fill the bet card
@@ -355,40 +428,41 @@ public class PlayGame {
 				 RandomSelect.setOnAction(e->{
 					 selectRandomSpots(grid,spotNumber);
 				 });
-			  draw.setOnAction(e->{
-				  if(NumDraws>=drawNumber) 
-					  return;
-				  
-				  NumDraws ++;
-				  				
-				  grid.setDisable(true);
-				  
-				  generateRandNum(grid,NumberMap,gamePane,NumDraws,draw);
+			
+			
+			draw.setOnAction(e->{
+				if(NumDraws == drawNumber)
+					draw.setDisable(true);
+				
+			NumDraws++;
+		 		
+		   grid.setDisable(true);
+		   draw.setText("Draw "+NumDraws);
+		  generateRandNum(grid,NumberMap,gamePane,NumDraws,draw,spotNumber);
 				  	
 			  });
+			
+//		}
+				 
+		
 	 }
 	 
 	 // function to let computer choose spots for the user
 	 public void selectRandomSpots(GridPane grid , int numberOfSpots)
 	 {
 		 Random rand = new Random();
-		 HashMap<Integer,Boolean> randomNumbers = new HashMap<Integer,Boolean>();
-		 for(int i =0 ; i <totalNum; ++i)
+		 HashSet<Integer> randomNumbers = new HashSet<Integer>();
+		  Random rand2 = new Random();
+		 
+		 while(randomNumbers.size() < numberOfSpots)
 		 {
-			 num = rand.nextInt(80);
-			 randomNumbers.put(num,true);
-			 if (randomNumbers.size() <= numberOfSpots) {
-	                if (randomNumbers.size() == numberOfSpots) {
-	                    totalNum = numberOfSpots;
-	                }
-	                totalNum++;
-	                randomNumbers.put(num,true);
-	            }
+			 while (randomNumbers.add(rand2.nextInt(80)) != true);
 		 }
+		 
 		 j = 1 ;
 		 grid.getChildren().forEach(node -> {  
 			 PauseTransition pause = new PauseTransition(Duration.millis(500+(secs*100)));
-			 if(gridValue.containsKey(j) && randomNumbers.containsKey(j))
+			 if(gridValue.containsKey(j) && randomNumbers.contains(j))
 			 {
 				 pause.play();
 				 NumberMap.put(j,true);
