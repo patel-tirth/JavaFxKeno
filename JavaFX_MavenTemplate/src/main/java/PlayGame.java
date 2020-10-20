@@ -215,7 +215,12 @@ public class PlayGame {
 		
 		
 		opt4.setOnAction(e->{
-			gamePane.setStyle("-fx-background-color: #a3816d;");
+			gamePane.setStyle("-fx-background-color: #830ef0;");
+			for(Node node: grid.getChildren())
+			{
+				node.setStyle("-fx-background-color: #e8f00e;");
+			}
+			
 		});
 		
 		
